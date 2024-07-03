@@ -14,6 +14,33 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+
+        th {
+            position: relative;
+        }
+
+        .sort-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            border: 1px solid #ccc;
+            z-index: 1;
+        }
+
+        .sort-dropdown button {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            background: none;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        th:hover .sort-dropdown {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -36,14 +63,62 @@
         <table class="requisitions">
             <thead>
                 <tr>
-                    <th>Job ID</th>
-                    <th>Job Description</th>
-                    <th>Lead</th>
-                    <th>Priority</th>
-                    <th>Status</th>
-                    <th>Assigned to</th>
-                    <th>Date reported</th>
-                    <th>JD</th>
+                    <th>
+                        Job ID
+                        <div class="sort-dropdown">
+                            <button onclick="sortTable(0, 'asc')">Sort Ascending</button>
+                            <button onclick="sortTable(0, 'desc')">Sort Descending</button>
+                        </div>
+                    </th>
+                    <th>
+                        Job Description
+                        <div class="sort-dropdown">
+                            <button onclick="sortTable(1, 'asc')">Sort Ascending</button>
+                            <button onclick="sortTable(1, 'desc')">Sort Descending</button>
+                        </div>
+                    </th>
+                    <th>
+                        Lead
+                        <div class="sort-dropdown">
+                            <button onclick="sortTable(2, 'asc')">Sort Ascending</button>
+                            <button onclick="sortTable(2, 'desc')">Sort Descending</button>
+                        </div>
+                    </th>
+                    <th>
+                        Priority
+                        <div class="sort-dropdown">
+                            <button onclick="sortTable(3, 'asc')">Sort Ascending</button>
+                            <button onclick="sortTable(3, 'desc')">Sort Descending</button>
+                        </div>
+                    </th>
+                    <th>
+                        Status
+                        <div class="sort-dropdown">
+                            <button onclick="sortTable(4, 'asc')">Sort Ascending</button>
+                            <button onclick="sortTable(4, 'desc')">Sort Descending</button>
+                        </div>
+                    </th>
+                    <th>
+                        Assigned to
+                        <div class="sort-dropdown">
+                            <button onclick="sortTable(5, 'asc')">Sort Ascending</button>
+                            <button onclick="sortTable(5, 'desc')">Sort Descending</button>
+                        </div>
+                    </th>
+                    <th>
+                        Date reported
+                        <div class="sort-dropdown">
+                            <button onclick="sortTable(6, 'asc')">Sort Ascending</button>
+                            <button onclick="sortTable(6, 'desc')">Sort Descending</button>
+                        </div>
+                    </th>
+                    <th>
+                        JD
+                        <div class="sort-dropdown">
+                            <button onclick="sortTable(7, 'asc')">Sort Ascending</button>
+                            <button onclick="sortTable(7, 'desc')">Sort Descending</button>
+                        </div>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -156,6 +231,32 @@
                     row.removeChild(row.lastElementChild);
                 });
             }
+        }
+
+        function sortTable(columnIndex, order) {
+            const table = document.querySelector('.requisitions tbody');
+            const rows = Array.from(table.rows);
+            const type = rows[0].cells[columnIndex].querySelector('input[type="date"]') ? 'date' : 'string';
+            let compareFunction;
+
+            if (type === 'date') {
+                compareFunction = (a, b) => {
+                    const dateA = new Date(a.cells[columnIndex].querySelector('input').value);
+                    const dateB = new Date(b.cells[columnIndex].querySelector('input').value);
+                    return order === 'asc' ? dateA - dateB : dateB - dateA;
+                };
+            } else {
+                compareFunction = (a, b) => {
+                    const textA = a.cells[columnIndex].textContent.trim().toLowerCase();
+                    const textB = b.cells[columnIndex].textContent.trim().toLowerCase();
+                    return order === 'asc' ? textA.localeCompare(textB) : textB.localeCompare(textA);
+                };
+            }
+
+            rows.sort(compareFunction);
+
+            // Append sorted rows to the table body
+            rows.forEach(row => table.appendChild(row));
         }
     </script>
 </body>
