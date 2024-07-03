@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requisitions</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Optional styles for better visibility of the export link */
+        #export-link {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Requirements</h1>
+            <button class="btn add-item" onclick="addItem()" aria-label="Add new item">Add new item</button>
+            <button class="btn add-column" onclick="addColumn()" aria-label="Add new column">Add new column</button>
+            <button class="btn delete-column" onclick="deleteColumn()" aria-label="Delete last column">Delete last column</button>
+            <div class="actions">
+                <button class="btn" onclick="handleButtonClick('Exit grid view')" aria-label="Exit grid view">Exit grid view</button>
+                <button class="btn" onclick="handleButtonClick('Undo')" aria-label="Undo">Undo</button>
+                <button class="btn" onclick="handleButtonClick('Red')" aria-label="Red">Red</button>
+                <button class="btn" onclick="handleButtonClick('Export')" aria-label="Export">Export</button>
+                <button class="btn" onclick="handleButtonClick('Forms')" aria-label="Forms">Forms</button>
+                <button class="btn" onclick="handleButtonClick('Automate')" aria-label="Automate">Automate</button>
+                <button class="btn" onclick="handleButtonClick('Integrate')" aria-label="Integrate">Integrate</button>
+            </div>
+        </header>
+        <table class="requisitions">
+            <thead>
+                <tr>
+                    <th>Job ID</th>
+                    <th>Job Description</th>
+                    <th>Lead</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Assigned to</th>
+                    <th>Date reported</th>
+                    <th>JD</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contentEditable="true">NSIAM01</td>
+                    <td contentEditable="true">Sharepoint SPFX</td>
+                    <td contentEditable="true">Jagadesh</td>
+                    <td contentEditable="true">Critical</td>
+                    <td>
+                        <select>
+                            <option value="pending-cdm">Pending CDM</option>
+                            <option value="client-shortlisted">Client Shortlisted</option>
+                            <option value="client-rejected">Client Rejected</option>
+                            <option value="on-hold">On Hold</option>
+                            <option value="onboarded">Onboarded</option>
+                            <option value="new">New</option>
+                            <option value="sourcing-in-pro">Sourcing in Pro</option>
+                            <option value="pending-client">Pending Client</option>
+                        </select>
+                    </td>
+                    <td contentEditable="true">Soumika Bandaru</td>
+                    <td><input type="date" value="2024-08-01"></td>
+                    <td contentEditable="true"></td>
+                </tr>
+                <tr>
+                    <td contentEditable="true">AJIBA01</td>
+                    <td contentEditable="true">Business Analyst</td>
+                    <td contentEditable="true">Ajay Nahar</td>
+                    <td contentEditable="true">Critical</td>
+                    <td>
+                        <select>
+                            <option value="pending-cdm">Pending CDM</option>
+                            <option value="client-shortlisted">Client Shortlisted</option>
+                            <option value="client-rejected">Client Rejected</option>
+                            <option value="on-hold">On Hold</option>
+                            <option value="onboarded">Onboarded</option>
+                            <option value="new">New</option>
+                            <option value="sourcing-in-pro">Sourcing in Pro</option>
+                            <option value="pending-client">Pending Client</option>
+                        </select>
+                    </td>
+                    <td contentEditable="true">Savenkatesh Chawan</td>
+                    <td><input type="date" value="2024-07-01"></td>
+                    <td contentEditable="true"></td>
+                </tr>
+                <!-- Add remaining rows similarly -->
+            </tbody>
+        </table>
+    </div>
+    <script src="scripts.js"></script>
+    <script>
+        function handleButtonClick(action) {
+            console.log(action); // Perform action based on the button clicked
+            // Add your action handling code here
+        }
+
+        function addItem() {
+            const table = document.querySelector('.requisitions tbody');
+            const newRow = document.createElement('tr');
+
+            const newCellContents = [
+                'New Job ID', 'New Job Description', 'New Lead', 'New Priority',
+                '<select><option value="pending-cdm">Pending CDM</option><option value="client-shortlisted">Client Shortlisted</option><option value="client-rejected">Client Rejected</option><option value="on-hold">On Hold</option><option value="onboarded">Onboarded</option><option value="new">New</option><option value="sourcing-in-pro">Sourcing in Pro</option><option value="pending-client">Pending Client</option></select>',
+                'New Assigned to', '<input type="date">', ''
+            ];
+
+            newCellContents.forEach(content => {
+                const newCell = document.createElement('td');
+                newCell.innerHTML = content;
+                if (!content.includes('<select') && !content.includes('<input type="date"')) {
+                    newCell.contentEditable = 'true';
+                }
+                newRow.appendChild(newCell);
+            });
+
+            table.appendChild(newRow);
+        }
+
+        function addColumn() {
+            const table = document.querySelector('.requisitions');
+            const headers = table.querySelector('thead tr');
+            const rows = table.querySelectorAll('tbody tr');
+
+            // Add new header cell
+            const newHeader = document.createElement('th');
+            newHeader.textContent = 'New Column';
+            newHeader.contentEditable = 'true';
+            headers.appendChild(newHeader);
+
+            // Add new cell to each row
+            rows.forEach(row => {
+                const newCell = document.createElement('td');
+                newCell.textContent = '';
+                newCell.contentEditable = 'true';
+                row.appendChild(newCell);
+            });
+        }
+
+        function deleteColumn() {
+            const table = document.querySelector('.requisitions');
+            const headers = table.querySelector('thead tr');
+            const rows = table.querySelectorAll('tbody tr');
+
+            if (headers.children.length > 1) { // Ensure at least one column remains
+                // Remove the last header cell
+                headers.removeChild(headers.lastElementChild);
+
+                // Remove the last cell from each row
+                rows.forEach(row => {
+                    row.removeChild(row.lastElementChild);
+                });
+            }
+        }
+    </script>
+</body>
+</html>

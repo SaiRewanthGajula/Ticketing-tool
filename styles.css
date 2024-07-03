@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+    overflow: hidden;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding-top: 30px;
+    min-height: 70px;
+    border-bottom: #0779e4 3px solid;
+}
+
+header h1 {
+    float: left;
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+}
+
+header .btn {
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+    background: #0779e4;
+    color: #fff;
+    border: 0;
+    padding: 5px 20px;
+    cursor: pointer;
+}
+
+.actions {
+    float: right;
+}
+
+.requisitions {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.requisitions th, .requisitions td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.requisitions th {
+    background-color: #f2f2f2;
+}
+
+.requisitions tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.requisitions tr:hover {
+    background-color: #ddd;
+}
